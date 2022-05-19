@@ -5,10 +5,21 @@ const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo')
 const session = require('express-session')
 const connectDB = require('./config/db')
+const homeRoutes = require('./routes/home')
 
-dotenv.config({path: './config/.env'})
+dotenv.config({path: './config/config.env'})
 
 connectDB()
+
+// middleware
+app.set('view-engine','ejs')
+app.use(express.static('public'))
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+
+
+
+app.use('/', homeRoutes)
 
 
 app.listen(process.env.PORT,()=>{
