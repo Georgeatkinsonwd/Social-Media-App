@@ -4,8 +4,10 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo')
 const session = require('express-session')
+const expressEjsLayouts = require('express-ejs-layouts')
 const connectDB = require('./config/db')
 const homeRoutes = require('./routes/home')
+const userRoutes = require('./routes/user')
 
 dotenv.config({path: './config/config.env'})
 
@@ -20,6 +22,7 @@ app.use(express.json())
 
 
 app.use('/', homeRoutes)
+app.use('/users',userRoutes)
 
 
 app.listen(process.env.PORT,()=>{
