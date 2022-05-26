@@ -15,6 +15,7 @@ connectDB()
 
 // middleware
 app.set('view-engine','ejs')
+// app.use(expressEjsLayouts)
 app.use(express.static('public'))
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
