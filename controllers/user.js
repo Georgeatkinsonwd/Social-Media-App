@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const bcrypt = require('bcrypt')
 
 
 
@@ -18,11 +19,11 @@ module.exports = {
     }
     // check match
     if (password !== password2){
-        errors.push ({msg : 'passwords do not match'})
+        errors.push ({msg : 'Passwords do not match.'})
     }
     // check p/w length more than 6
     if(password.length < 6){
-        errors.push({msg: 'password needs to be atleast 6 characters'})
+        errors.push({msg: 'Password needs to be atleast 6 characters.'})
     }
     if (errors.length > 0){
         res.render('register',{
@@ -38,7 +39,7 @@ module.exports = {
         User.findOne({email: email}).exec((err,user)=>{
             console.log(user)
             if(user){
-                errors.push({msg: 'email already registered'});
+                errors.push({msg: 'Email already registered.'});
                 res.render('register',{errors,name,email,password,password2});
             }
             else {
@@ -47,7 +48,23 @@ module.exports = {
                     email: email,
                     password: password
                 })
+                // hash password
+                bcrypt.genSalt(10,(err,salt)=>
+                bcrypt.hash(newUser.password,salt,
+                   (err,hash)=>{
+                       if(err) throw err
+                       // save pass to hash
+                       newUser.password = hash;
+
+                       newUser.save()
+                       .then((value)=>{
+                           console.log(value)
+                           res.redirect('/users/login')
+                       })
+                       .catch(value=> console.log(value));
+                   }))
             }
+            // else statement ends
         })
     }
     },
