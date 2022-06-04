@@ -72,15 +72,19 @@ module.exports = {
     },
     postLogin:(req,res,next)=>{
         passport.authenticate('local',{
-            successRedirect : '/users/dashboard',
+            successRedirect : '/dashboard',
             failureRedirect : '/users/login',
             failureFlash : true,
             })
     },
 
-    getDashboard:(req,res)=>{
-        res.render('dashboard.ejs')
-
+    
+    userLogout:(req,res,next)=>{
+    req.logout(function(err){
+        if (err) { return next(err); }
+    });
+    req.flash('success_msg','Now logged out');
+    res.redirect('/users/login');
     }
 
 

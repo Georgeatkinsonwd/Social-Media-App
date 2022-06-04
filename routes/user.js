@@ -10,7 +10,7 @@ router.get('/register',userController.getRegister)
 // can't get working with controller atm
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
-      successRedirect: '/users/dashboard',
+      successRedirect: '/dashboard',
       failureRedirect: '/users/login',
       failureFlash: true
     })(req, res, next);
@@ -18,8 +18,7 @@ router.post('/login', (req, res, next) => {
 
 router.post('/register',userController.postRegister)
 
-
-router.get('/dashboard',userController.getDashboard)
+router.get('/logout',userController.userLogout)
 
 
 
