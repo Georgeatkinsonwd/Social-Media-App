@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const bcrypt = require('bcrypt')
+const passport = require('passport')
 
 
 
@@ -70,9 +71,17 @@ module.exports = {
     }
     },
     postLogin:(req,res,next)=>{
+        passport.authenticate('local',{
+            successRedirect : '/users/dashboard',
+            failureRedirect : '/users/login',
+            failureFlash : true,
+            })
+    },
+
+    getDashboard:(req,res)=>{
+        res.render('dashboard.ejs')
 
     }
-
 
 
 }
